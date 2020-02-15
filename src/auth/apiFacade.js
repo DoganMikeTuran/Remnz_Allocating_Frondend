@@ -87,7 +87,8 @@ class ApiFacade {
           localStorage.setItem(
             "accessToken",
             JSON.stringify({
-              token: data.token
+              token: data.token,
+              hey: data.token
             })
           );
           console.log(decode.exp);
