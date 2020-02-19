@@ -20,16 +20,6 @@ import { Creatable } from "react-select";
 import Panelheader from "../../components/PanelHeader/PanelHeader";
 var selectOptions = [];
 
-const defaultOptions = [
-  { label: "Adelaide", value: "adelaide" },
-  { label: "Brisbane", value: "brisbane" },
-  { label: "Canberra", value: "canberra" },
-  { label: "Darwin", value: "darwin" },
-  { label: "Hobart", value: "hobart" },
-  { label: "Melbourne", value: "melbourne" },
-  { label: "Perth", value: "perth" },
-  { label: "Sydney", value: "sydney" }
-];
 const createOption = label => ({
   label,
   value: label.toLowerCase().replace(/\W/g, "")
@@ -48,7 +38,6 @@ class CreateSkill extends React.Component {
       id: "",
       input: "",
       isLoading: false,
-      options: defaultOptions,
       value: undefined
     };
   }
