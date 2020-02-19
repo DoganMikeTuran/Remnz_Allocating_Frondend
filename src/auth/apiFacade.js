@@ -50,17 +50,19 @@ class ApiFacade {
     this.lastName = null;
     localStorage.removeItem("accessToken");
     localStorage.removeItem("expiresOn");
+    localStorage.removeItem("decoded");
+    localStorage.removeItem("firstname");
   }
 
   isAuthenticated() {
     var now = Date.now() / 1000;
+    console.log(now);
     var exp = localStorage.getItem("expiresOn");
-
+    console.log(exp);
     if (exp < now) {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("expiresOn");
     }
-
     return exp > now;
   }
 
@@ -80,24 +82,11 @@ class ApiFacade {
         .then(Response => {
           return Response.json();
         })
+
         .then(data => {
-          this.accessToken = data.token;
           var decode = jwt_decode(data.token);
-          this.expiresAt = decode.exp;
-          localStorage.setItem(
-            "accessToken",
-            JSON.stringify({
-              token: data.token,
-              hey: data.token
-            })
-          );
-          console.log(decode.exp);
-          console.log(data);
-
-          this.firstName = decode.nameid;
-          this.lastName = decode.family_name;
-
-          console.log(data.token);
+          localStorage.setItem("decoded", decode.family_name);
+          localStorage.setItem("firstname", decode.nameid);
           console.log(decode);
 
           return resolve(data);

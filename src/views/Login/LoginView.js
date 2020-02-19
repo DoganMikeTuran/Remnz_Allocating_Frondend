@@ -46,13 +46,13 @@ class LoginView extends React.Component {
 
     apiFacade.login(this.state.userEmail, this.state.password).then(data => {
       // herinde sætter du din accessToken osv.
-      console.log(data);
-      console.log(data.token);
+
       const decode = jwt_decode(data.token);
 
       localStorage.setItem("accessToken", data.token);
       localStorage.setItem("expiresOn", decode.exp);
       this.props.history.push("/dashboard");
+      console.log(apiFacade.isAuthenticated());
     });
   };
 

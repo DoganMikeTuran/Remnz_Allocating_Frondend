@@ -123,10 +123,12 @@ class Sidebar extends React.Component {
                     this.setState({ openAvatar: !this.state.openAvatar })
                   }
                 >
+                  {/*------- Sidebar name ----------*/}
                   <span>
-                    {apiFacade.getFirstName() + " " + apiFacade.getLastName()}
+                    {localStorage.getItem("firstname")}
                     <b className="caret" />
                   </span>
+                  {/* ------------------------------ */}
                 </a>
                 <Collapse isOpen={this.state.openAvatar}>
                   <ul className="nav">

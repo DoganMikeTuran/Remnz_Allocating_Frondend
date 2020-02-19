@@ -4,8 +4,10 @@ import FullScreenMap from "views/Maps/FullScreenMap.jsx";
 import VectorMap from "views/Maps/VectorMap.jsx";
 import Charts from "views/Charts/Charts.jsx";
 import Pdfgen from "../views/Pdfgen/Pdfgen.js";
-import UserView from "../views/Users/UserView";
+import UsersView from "../views/Users/UserView";
+import CreateUserView from "../views/CreateUser/CreateUser";
 import Form from "../views/Forms/RegularForms";
+import CreateSkill from "../views/CreateSkill/CreateSkill";
 
 var dashRoutes = [
   {
@@ -15,16 +17,28 @@ var dashRoutes = [
     component: Dashboard
   },
   {
+    path: "/createskill",
+    name: "createskill",
+    icon: "design_app",
+    component: CreateSkill
+  },
+  {
     path: "/forms",
     name: "form",
     icon: "design_app",
     component: Form
   },
   {
+    path: "/createuser",
+    name: "CreateUser",
+    icon: "design_app",
+    component: CreateUserView
+  },
+  {
     path: "/users",
     name: "Users",
     icon: "design_app",
-    component: UserView
+    component: UsersView
   },
 
   {
