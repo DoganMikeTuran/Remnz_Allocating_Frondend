@@ -124,22 +124,22 @@
 //               />
 //             </Col>
 //             <Col xs={12} sm={5}>
-//               <input
-//                 placeholder="Sub-Skill Name"
-//                 type="text"
-//                 name="name"
-//                 value={this.state.name}
-//                 onChange={this.changeHandler}
-//               />
+//   <input
+//     placeholder="Sub-Skill Name"
+//     type="text"
+//     name="name"
+//     value={this.state.name}
+//     onChange={this.changeHandler}
+//   />
 //             </Col>
 //             <Col xs={12} sm={5}>
-//               <input
-//                 placeholder="id"
-//                 type="number"
-//                 name="id"
-//                 value={this.state.id}
-//                 onChange={this.changeHandler}
-//               />
+//   <input
+//     placeholder="id"
+//     type="number"
+//     name="id"
+//     value={this.state.id}
+//     onChange={this.changeHandler}
+//   />
 //             </Col>
 //             <Button>go</Button>
 //           </Row>

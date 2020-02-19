@@ -18,7 +18,6 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { Creatable } from "react-select";
 import Panelheader from "../../components/PanelHeader/PanelHeader";
-var selectOptions = [];
 
 const createOption = label => ({
   label,
@@ -30,10 +29,6 @@ class CreateSkill extends React.Component {
     super(props);
     this.state = {
       selectOptions: [],
-      selectedValue: {
-        label: "",
-        value: ""
-      },
       name: "",
       id: "",
       input: "",
@@ -54,13 +49,16 @@ class CreateSkill extends React.Component {
 
     console.log(this.state.selectedValue);
   }
+  changeHandler = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
 
   submitHandler = e => {
     e.preventDefault();
     axios
       .post("https://localhost:5001/api/subskill", {
         name: this.state.name,
-        skillid: this.state.selectedValue.value,
+        skillid: this.state.value.value,
         id: this.state.id,
         clientid: parseInt(localStorage.getItem("decoded"))
       })
@@ -99,7 +97,7 @@ class CreateSkill extends React.Component {
       })
 
       .then(response => {
-        console.log("Hello world", response);
+        console.log("Hello world post response", response);
         axios.get("https://localhost:5001/api/skill").then(response => {
           const selectOptions = response.data.map(item => ({
             value: item.id,
@@ -107,6 +105,7 @@ class CreateSkill extends React.Component {
           }));
           this.setState({ selectOptions });
           console.log(selectOptions);
+
           for (let index = 0; index < selectOptions.length; index++) {
             if (selectOptions[index].label === newOption.label) {
               newOption.value = selectOptions[index].value;
@@ -128,39 +127,60 @@ class CreateSkill extends React.Component {
   };
 
   render() {
+    if (this.state.value != null) {
+      console.log(this.state.value.value);
+    }
     const { isLoading, options, value } = this.state;
     return (
       <div>
         <Panelheader size="sm" />
         <div className="content">
-          <Row>
-            <Col xs="6">
-              <Card className="card-chart">
-                <CardHeader>
-                  <CardTitle>Create SubSkill</CardTitle>
-                </CardHeader>
-                <CardBody>
-                  <CreatableSelect
-                    isClearable
-                    isDisabled={isLoading}
-                    isLoading={isLoading}
-                    onChange={this.handleChange}
-                    onCreateOption={this.handleCreate}
-                    options={this.state.selectOptions}
-                    value={value}
-                  />
-                </CardBody>
-              </Card>
-            </Col>
-            <Col xs="6">
-              <Card className="card-chart">
-                <CardHeader>
-                  <CardTitle>Create SubSkill</CardTitle>
-                </CardHeader>
-                <CardBody>Hey</CardBody>
-              </Card>
-            </Col>
-          </Row>
+          <form onSubmit={this.submitHandler}>
+            <Row>
+              <Col xs="6">
+                <Card className="card-chart">
+                  <CardHeader>
+                    <CardTitle>Create SubSkill</CardTitle>
+                  </CardHeader>
+                  <CardBody>
+                    <CreatableSelect
+                      isClearable
+                      isLoading={isLoading}
+                      onChange={this.handleChange}
+                      onCreateOption={this.handleCreate}
+                      options={this.state.selectOptions}
+                      value={value}
+                    />
+                  </CardBody>
+                </Card>
+              </Col>
+              <Col xs="6">
+                <Card className="card-chart">
+                  <CardHeader>
+                    <CardTitle>Create SubSkill</CardTitle>
+                  </CardHeader>
+                  <CardBody>
+                    <input
+                      placeholder="Sub-Skill Name"
+                      type="text"
+                      name="name"
+                      value={this.state.name}
+                      onChange={this.changeHandler}
+                    />
+                    <p></p>
+                    <input
+                      placeholder="id"
+                      type="number"
+                      name="id"
+                      value={this.state.id}
+                      onChange={this.changeHandler}
+                    />
+                    <Button>go</Button>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </form>
         </div>
       </div>
     );
