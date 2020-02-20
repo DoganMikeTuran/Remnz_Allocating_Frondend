@@ -52,6 +52,7 @@ class ApiFacade {
     localStorage.removeItem("expiresOn");
     localStorage.removeItem("decoded");
     localStorage.removeItem("firstname");
+    localStorage.removeItem("lastname");
   }
 
   isAuthenticated() {
@@ -87,6 +88,7 @@ class ApiFacade {
           var decode = jwt_decode(data.token);
           localStorage.setItem("decoded", decode.family_name);
           localStorage.setItem("firstname", decode.nameid);
+          localStorage.setItem("lastname", decode.sub);
           console.log(decode);
 
           return resolve(data);

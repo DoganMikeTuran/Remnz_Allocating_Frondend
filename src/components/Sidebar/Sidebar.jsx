@@ -81,20 +81,15 @@ class Sidebar extends React.Component {
         <NotificationAlert ref="notificationAlert" />
         <div className="sidebar" data-color="mysidebarcolor2">
           <div className="logo">
-            <a
-              href="https://www.creative-tim.com"
-              className="simple-text logo-mini"
-            >
+            <a className="simple-text logo-mini">
               <div className="logo-img">
                 <img src={logo} alt="react-logo" />
               </div>
             </a>
-            <a
-              href="https://www.creative-tim.com"
-              className="simple-text logo-normal"
-            >
-              Friday Group
-            </a>
+
+            {/* mangler reference til en anden side, hvis man vil det */}
+            <a className="simple-text logo-normal">Alloc</a>
+            {/* ---------------------------- */}
             <div className="navbar-minimize">
               <Button
                 simple
@@ -125,7 +120,9 @@ class Sidebar extends React.Component {
                 >
                   {/*------- Sidebar name ----------*/}
                   <span>
-                    {localStorage.getItem("firstname")}
+                    {localStorage.getItem("firstname") +
+                      " " +
+                      localStorage.getItem("lastname")}
                     <b className="caret" />
                   </span>
                   {/* ------------------------------ */}

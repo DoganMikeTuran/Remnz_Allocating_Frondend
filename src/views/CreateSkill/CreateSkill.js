@@ -39,13 +39,26 @@ class CreateSkill extends React.Component {
 
   componentDidMount() {
     const decode = jwt_decode(localStorage.getItem("accessToken"));
-    axios.get("https://localhost:5001/api/skill").then(response => {
-      const selectOptions = response.data.map(item => ({
-        value: item.id,
-        label: item.name
-      }));
-      this.setState({ selectOptions });
-    });
+    const config = {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken") + ""}`
+      }
+    };
+    axios
+      .post(
+        "https://localhost:5001/api/skill/get",
+        {
+          clientid: parseInt(localStorage.getItem("decoded"))
+        },
+        config
+      )
+      .then(response => {
+        const selectOptions = response.data.map(item => ({
+          value: item.id,
+          label: item.name
+        }));
+        this.setState({ selectOptions });
+      });
 
     console.log(this.state.selectedValue);
   }
@@ -55,13 +68,22 @@ class CreateSkill extends React.Component {
 
   submitHandler = e => {
     e.preventDefault();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken") + ""}`
+      }
+    };
     axios
-      .post("https://localhost:5001/api/subskill", {
-        name: this.state.name,
-        skillid: this.state.value.value,
-        id: this.state.id,
-        clientid: parseInt(localStorage.getItem("decoded"))
-      })
+      .post(
+        "https://localhost:5001/api/subskill",
+        {
+          name: this.state.name,
+          skillid: this.state.value.value,
+          id: this.state.id,
+          clientid: parseInt(localStorage.getItem("decoded"))
+        },
+        config
+      )
 
       .then(response => {
         console.log("Hello world", response);
@@ -90,35 +112,57 @@ class CreateSkill extends React.Component {
     console.log(newOption);
     console.groupEnd();
 
+    const config = {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken") + ""}`
+      }
+    };
     axios
-      .post("https://localhost:5001/api/skill", {
-        name: newOption.label,
-        clientid: parseInt(localStorage.getItem("decoded"))
-      })
+      .post(
+        "https://localhost:5001/api/skill",
+        {
+          name: newOption.label,
+          clientid: parseInt(localStorage.getItem("decoded"))
+        },
+        config
+      )
 
       .then(response => {
         console.log("Hello world post response", response);
-        axios.get("https://localhost:5001/api/skill").then(response => {
-          const selectOptions = response.data.map(item => ({
-            value: item.id,
-            label: item.name
-          }));
-          this.setState({ selectOptions });
-          console.log(selectOptions);
-
-          for (let index = 0; index < selectOptions.length; index++) {
-            if (selectOptions[index].label === newOption.label) {
-              newOption.value = selectOptions[index].value;
-              console.log(newOption.value);
-              console.log(selectOptions[index].value);
-              this.setState({
-                isLoading: false,
-                selectOptions: [...selectOptions],
-                value: newOption
-              });
-            }
+        const config = {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken") + ""}`
           }
-        });
+        };
+        axios
+          .post(
+            "https://localhost:5001/api/skill/get",
+            {
+              clientid: parseInt(localStorage.getItem("decoded"))
+            },
+            config
+          )
+          .then(response => {
+            const selectOptions = response.data.map(item => ({
+              value: item.id,
+              label: item.name
+            }));
+            this.setState({ selectOptions });
+
+            for (let index = 0; index < selectOptions.length; index++) {
+              if (selectOptions[index].label === newOption.label) {
+                console.log(selectOptions[index].value);
+                newOption.value = selectOptions[index].value;
+                console.log(newOption);
+                console.log(selectOptions[index].value);
+                this.setState({
+                  isLoading: false,
+                  selectOptions: [...selectOptions],
+                  value: newOption
+                });
+              }
+            }
+          });
       })
       .catch(error => {
         console.log(error);
@@ -140,7 +184,7 @@ class CreateSkill extends React.Component {
               <Col xs="6">
                 <Card className="card-chart">
                   <CardHeader>
-                    <CardTitle>Create SubSkill</CardTitle>
+                    <CardTitle>Select Skill</CardTitle>
                   </CardHeader>
                   <CardBody>
                     <CreatableSelect
